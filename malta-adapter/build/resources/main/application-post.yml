@@ -1,0 +1,23 @@
+server:
+  port: 8090
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 1
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 1
+      waitDurationInOpenState: 30s
+      failureRateThreshold: 1
+      permittedNumberOfCallsInHalfOpenState: 50
+  instances:
+    postServer:
+      baseConfig: default
+
+auth:
+  kakao:
+    access-id: 880931
+    access-key: da50203af9034dc757b85cb69996d611
+  naver:
+    access-id: onI8GjPITY0r8u6FR2f4
+    access-key: vGKb_Nw7Z8
