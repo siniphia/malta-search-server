@@ -11,10 +11,11 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class PostController {
     @GetMapping("/kakao")
     @ResponseStatus(HttpStatus.OK)
     @CircuitBreaker(name = "postServer", fallbackMethod = "getBlogPostsFromNaver")
-    public List<PostResponseDto> getBlogPostsFromKakao(
+    public Flux<PostResponseDto> getBlogPostsFromKakao(
             @RequestParam String keyword,
             @RequestParam(required = false, defaultValue = "accuracy") String sort,
             @Min(1) @Max(50) @RequestParam(required = false, defaultValue = "1") Integer page,
@@ -47,7 +48,7 @@ public class PostController {
                 .baseUrl("https://dapi.kakao.com/v2")
                 .build();
 
-        String httpResponse = webClient.get()
+        Mono<String> httpResponse = webClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/search/blog")
                         .queryParam("query", keyword)
                         .queryParam("sort", sort)
@@ -57,17 +58,14 @@ public class PostController {
                 .header("Authorization", "KakaoAK " + kakaoKey)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToMono(String.class)
-                .block();
+                .bodyToMono(String.class);
 
-        JSONObject jsonResponse = new JSONObject(httpResponse);
-
-        return this.postService.getKakaoBlogPosts(jsonResponse);
+        return this.postService.getKakaoBlogPosts(httpResponse);
     }
 
     @GetMapping("/naver")
     @ResponseStatus(HttpStatus.OK)
-    public List<PostResponseDto> getBlogPostsFromNaver(
+    public Flux<PostResponseDto> getBlogPostsFromNaver(
             @RequestParam String keyword,
             @RequestParam(required = false, defaultValue = "accuracy") String sort,
             @Min(1) @Max(100) @RequestParam(required = false, defaultValue = "1") Integer page,
@@ -78,7 +76,7 @@ public class PostController {
                 .baseUrl("https://openapi.naver.com/v1")
                 .build();
 
-        String httpResponse = webClient.get()
+        Mono<String> httpResponse = webClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/search/blog.json")
                         .queryParam("query", keyword)
                         .queryParam("sort", sort.equals("accuracy") ? "sim" : "date")
@@ -89,11 +87,8 @@ public class PostController {
                 .header("X-Naver-Client-Secret", naverKey)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToMono(String.class)
-                .block();
+                .bodyToMono(String.class);
 
-        JSONObject jsonResponse = new JSONObject(httpResponse);
-
-        return this.postService.getNaverBlogPosts(jsonResponse);
+        return this.postService.getNaverBlogPosts(httpResponse);
     }
 }
