@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
-@ComponentScan(basePackages = {"com.malta.post", "com.malta.keyword"})
+@ComponentScan(basePackages = {"com.malta.post.web", "com.malta.post.service", "com.malta.keyword"})
 @SpringBootApplication
 public class MaltaServerApplication {
     public static void main(String[] args) {

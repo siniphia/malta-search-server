@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface KeywordRepository extends JpaRepository<Keyword, Long> {
-//    @Query("select * from keyword")
-//    List<Keyword> findPopularKeywords(Integer maxRank);
     Optional<Keyword> findByKeyword(String keyword);
+    List<Keyword> findTop10ByOrderByCounterDesc();
 }

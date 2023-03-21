@@ -29,7 +29,7 @@ public class KeywordController {
             @Min(1) @Max(50) @RequestParam(required = false, defaultValue = "1") Integer page,
             @Min(1) @Max(50) @RequestParam(required = false, defaultValue = "10") Integer size
     ) {
-        this.keywordService.searchBlogPosts(keyword);
+        this.keywordService.saveOrUpdateKeyword(keyword);
         return postToKeywordAdapter.searchPostsByKeyword(keyword, sort, page, size);
     }
 
