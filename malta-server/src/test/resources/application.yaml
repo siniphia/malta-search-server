@@ -1,0 +1,20 @@
+# 테스트용 H2 설정파일
+spring:
+  datasource:
+    initialization-mode: always
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:~/test
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+    defer-datasource-initialization: true
+
+logging.level:
+  org.hibernate.SQL: debug

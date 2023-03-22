@@ -4,10 +4,10 @@ server:
 resilience4j.circuitbreaker:
   configs:
     default:
-      slidingWindowSize: 2
+      slidingWindowSize: 1
       slidingWindowType: COUNT_BASED
       minimumNumberOfCalls: 1
-      waitDurationInOpenState: 30s
+      waitDurationInOpenState: 1s
       failureRateThreshold: 1
       permittedNumberOfCallsInHalfOpenState: 50
   instances:

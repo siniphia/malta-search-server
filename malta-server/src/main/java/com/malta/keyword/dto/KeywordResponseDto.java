@@ -3,9 +3,11 @@ package com.malta.keyword.dto;
 import com.malta.keyword.entity.Keyword;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
+@EqualsAndHashCode
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class KeywordResponseDto {
     private final String keyword;

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.malta'
-version = '1.0'
+version = '1.0.0'
 sourceCompatibility = '17'
 
 configurations {
@@ -21,6 +21,7 @@ repositories {
 dependencies {
     // multi-module dependency
     implementation project(":malta-adapter")
+    testImplementation project(":malta-adapter")
 
     // spring frameworks
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -36,7 +37,11 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
 
     // test
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.assertj:assertj-core:3.21.0'
+    testImplementation group: 'org.mockito', name: 'mockito-inline', version: '4.6.1'
 }
 
 tasks.named('test') {

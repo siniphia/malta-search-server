@@ -25,7 +25,7 @@ public class KeywordService {
 
     @Transactional(readOnly = true)
     public List<KeywordResponseDto> getPopularKeywords() {
-        return keywordRepository.findTop10ByOrderByCounterDesc()
+        return keywordRepository.findTop10ByOrderByCounterDescModifiedTimeDesc()
                 .stream()
                 .map(KeywordResponseDto::from)
                 .toList();

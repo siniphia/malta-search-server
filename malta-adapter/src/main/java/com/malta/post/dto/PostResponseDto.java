@@ -2,11 +2,11 @@ package com.malta.post.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import java.time.LocalDate;
-
 @Getter
+@EqualsAndHashCode
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PostResponseDto {
     private final String title;

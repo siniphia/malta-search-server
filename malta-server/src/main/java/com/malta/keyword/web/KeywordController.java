@@ -4,6 +4,7 @@ import com.malta.keyword.adapter.PostToKeywordAdapter;
 import com.malta.keyword.dto.KeywordResponseDto;
 import com.malta.keyword.service.KeywordService;
 import com.malta.post.dto.PostResponseDto;
+import com.malta.post.util.Pagination;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +24,11 @@ public class KeywordController {
 
     @GetMapping("/search")
     @ResponseStatus(HttpStatus.OK)
-    public List<PostResponseDto> searchBlogPosts(
+    public Pagination<PostResponseDto> searchBlogPosts(
             @RequestParam String keyword,
             @RequestParam(required = false, defaultValue = "accuracy") String sort,
-            @Min(1) @Max(50) @RequestParam(required = false, defaultValue = "1") Integer page,
-            @Min(1) @Max(50) @RequestParam(required = false, defaultValue = "10") Integer size
+            @Min(1) @Max(100) @RequestParam(required = false, defaultValue = "1") Integer page,
+            @Min(1) @Max(100) @RequestParam(required = false, defaultValue = "10") Integer size
     ) {
         this.keywordService.saveOrUpdateKeyword(keyword);
         return postToKeywordAdapter.searchPostsByKeyword(keyword, sort, page, size);
